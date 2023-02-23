@@ -1,5 +1,5 @@
 # NTSPy
-This is an attempt to rewrite a portino of the R packazge NTS in Python, initially to make use of the mTAR.sim function.
+This is an attempt to rewrite a portion of the R packazge NTS in Python, initially to make use of the mTAR.sim function.
 
 Credit to the original authors of the package NTS, Xialu Liu, Rong Chen, Ruey Tsay.
 
