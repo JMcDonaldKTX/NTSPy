@@ -138,7 +138,7 @@ class mTAR():
                         #print(self.zt[i-j-1 ])
                         self.wk = self.wk + np.dot(phi, self.zt[i-j-1 ])
             self.zt = np.vstack((self.zt, self.wk))
-        mTAR_sim = {'series': self.zt[self.ini+1:self.nT,:], 'at': self.resi[self.ini+1:self.nT,:], 'threshold':self.thr,
+        mTAR_sim = {'series': self.zt[self.ini:self.nT,:], 'at': self.resi[self.ini:self.nT,:], 'threshold':self.thr,
                     'delay': self.delay, 'n1':n1, 'n2':(self.n_obs - n1)}
         return mTAR_sim
                         
