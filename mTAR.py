@@ -141,5 +141,34 @@ class mTAR():
         mTAR_sim = {'series': self.zt[self.ini:self.nT,:], 'at': self.resi[self.ini:self.nT,:], 'threshold':self.thr,
                     'delay': self.delay, 'n1':n1, 'n2':(self.n_obs - n1)}
         return mTAR_sim
+    
+    def sim_nl(self):
+        n1 = 0
+        for i in range(self.ini, self.nT):
+            self.wk = np.zeros(self.k)
+            if self.zt[(i-self.d)-1, self.delay[0]-1] <= self.thr:
+                n1+=1
+                self.resi[i,:] = self.a1[i,:]
+                self.wk = self.wk + self.a1[i,:] + self.c1
+                if self.p1 > 0:
+                    for j in range(self.p1):
+                        idx = (j) * self.k
+                        phi = self.phi1[:, idx-1:(idx+self.k)]
+                        self.wk = self.wk + 1/(1+np.exp(-np.dot(phi, self.zt[i-j-1 ])))
+            else:
+                self.resi[i,:] = self.a2[i,:]
+                self.wk = self.wk + self.a2[i,:] + self.c2
+                if self.p2 > 0:
+                    for j in range(self.p2):
+                        idx = (j) * self.k
+                        phi = self.phi2[:, idx-1:(idx+self.k)]
+                        #print(phi)
+                        #print(self.wk)
+                        #print(self.zt[i-j-1 ])
+                        self.wk = self.wk + 1/(1+np.exp(-np.dot(phi, self.zt[i-j-1 ])))
+            self.zt = np.vstack((self.zt, self.wk))
+        mTAR_sim = {'series': self.zt[self.ini:self.nT,:], 'at': self.resi[self.ini:self.nT,:], 'threshold':self.thr,
+                    'delay': self.delay, 'n1':n1, 'n2':(self.n_obs - n1)}
+        return mTAR_sim
                         
 
