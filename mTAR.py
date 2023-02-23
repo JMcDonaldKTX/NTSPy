@@ -154,7 +154,7 @@ class mTAR():
                     for j in range(self.p1):
                         idx = (j) * self.k
                         phi = self.phi1[:, idx-1:(idx+self.k)]
-                        self.wk = 1/(self.wk + 1+np.exp(-np.dot(phi, self.zt[i-j-1 ])))
+                        self.wk = 1/(1+np.exp(-(self.wk +np.dot(phi, self.zt[i-j-1 ]))))
             else:
                 self.resi[i,:] = self.a2[i,:]
                 self.wk = self.wk + self.a2[i,:] + self.c2
@@ -165,7 +165,7 @@ class mTAR():
                         #print(phi)
                         #print(self.wk)
                         #print(self.zt[i-j-1 ])
-                        self.wk = 1/(self.wk + 1+np.exp(-np.dot(phi, self.zt[i-j-1 ])))
+                        self.wk = 1/(1+np.exp(-(self.wk + np.dot(phi, self.zt[i-j-1 ]))))
             self.zt = np.vstack((self.zt, self.wk))
         mTAR_sim = {'series': self.zt[self.ini:self.nT,:], 'at': self.resi[self.ini:self.nT,:], 'threshold':self.thr,
                     'delay': self.delay, 'n1':n1, 'n2':(self.n_obs - n1)}
